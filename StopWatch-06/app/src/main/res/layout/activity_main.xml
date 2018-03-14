@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.poojagupta.stopwatch06.MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="379dp"
+        app:srcCompat="@drawable/iit" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="155dp"
+        android:text="Example Of Services"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/startServiceBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="24dp"
+        android:text="START SERVICES"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/startBtn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/startServiceBtn"
+        android:text="START" />
+
+    <Button
+        android:id="@+id/stopBtn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/startServiceBtn"
+        android:layout_centerHorizontal="true"
+        android:text="STOP" />
+
+    <Button
+        android:id="@+id/resetBtn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/startServiceBtn"
+        android:layout_below="@+id/startServiceBtn"
+        android:text="RESET" android:layout_alignEnd="@+id/startServiceBtn" />
+
+    <Button
+        android:id="@+id/stopServiceBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/startBtn"
+        android:text="STOP SERVICES"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stopServiceBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:gravity="center"
+        android:text="00:00:000"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="24sp" />
+
+</RelativeLayout>
+
