@@ -1,7 +1,6 @@
 package com.example.poojagupta.stopwatch06;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Handler;
@@ -10,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,19 +43,22 @@ public class MainActivity extends AppCompatActivity {
         timer = (TextView) findViewById(R.id.timer);
         final Handler handler = new Handler();
 
+        // define service connection
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                boundServiceActive = true;
-                MyBinder myBinder = (MyBinder) iBinder;
-                boundService = myBinder.getService();
+                try {
+                    boundServiceActive = true;
+                    MyBinder myBinder = (MyBinder) iBinder;
+                    boundService = myBinder.getService();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-
                 boundServiceActive = false;
-
             }
         };
 
@@ -65,10 +66,20 @@ public class MainActivity extends AppCompatActivity {
         startServiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(getApplicationContext(), BoundService.class);
-                startService(intent);
-                bindService(intent, serviceConnection, 0);
-                Toast.makeText(getApplicationContext(), "Services Started", Toast.LENGTH_SHORT).show();
+                try {
+                    intent = new Intent(getApplicationContext(), BoundService.class);
+                    if (BoundService.running) {
+                        Toast.makeText(getApplicationContext(), "Service Started already", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+                        Toast.makeText(getApplicationContext(), "Service Started", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -77,25 +88,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getApplicationContext(), "Start Services Started", Toast.LENGTH_SHORT).show();
-
                 timerStarted = true;
 
-               /* while(boundServiceActive && timerStarted){
-                    timer.setText(boundService.getTime());
-                }*/
-
                 if (boundServiceActive) {
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (timerStarted) {
-                                timer.setText(boundService.getTime());
-                                handler.postDelayed(this, 0);
+                    try {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (timerStarted) {
+                                    timer.setText(boundService.getTime());
+                                    handler.postDelayed(this, 0);
+                                }
                             }
-                        }
-                    });
+                        });
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Start the services first", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -105,9 +115,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (boundServiceActive) {
-                    timerStarted = false;
-                    handler.removeCallbacksAndMessages(null);
-                    boundService.stopTimer();
+                    try {
+                        timerStarted = false;
+                        handler.removeCallbacksAndMessages(null);
+                        boundService.stopTimer();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Start the services first", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -118,28 +134,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (boundServiceActive) {
-                    timerStarted = false;
-                    handler.removeCallbacksAndMessages(null);
-                    timer.setText("00:00:000");
-                    boundService.resetTimer();
+                    try {
+                        timerStarted = false;
+                        handler.removeCallbacksAndMessages(null);
+                        timer.setText("00:00:000");
+                        boundService.resetTimer();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Start the services first", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        // stop service on STOP SERVICES button click
+        // stop service on STOP SERVICES button click and remove the handler if attached
         stopServiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (boundServiceActive) {
-                    timerStarted = false;
-                    // reset the timer when service is stopped
-                    resetBtn.performClick();
-                    unbindService(serviceConnection);
-                    boundServiceActive = false;
+                    try {
+                        timerStarted = false;
+                        handler.removeCallbacksAndMessages(null);
+                        // reset the timer when service is stopped
+                        resetBtn.performClick();
+                        unbindService(serviceConnection);
+                        boundServiceActive = false;
+                    } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
-
     }
+
 }

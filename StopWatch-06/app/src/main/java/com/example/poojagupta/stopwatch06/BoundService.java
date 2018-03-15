@@ -17,6 +17,7 @@ public class BoundService extends Service {
     long elapsedTimeMillis;
     private IBinder binder = null;
     Boolean flag;
+    static Boolean running = false;
 
     // set variables when service is created. This is one time activity
     @Override
@@ -25,6 +26,8 @@ public class BoundService extends Service {
         timeInMillisWhenStopped = 0;
         elapsedTimeMillis = 0;
         flag = true;
+        running = true; // flag to check if the service is running or not
+
     }
 
     @Override
@@ -44,11 +47,12 @@ public class BoundService extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
+        running = false;
         return this.stopService(intent); // stop the service when all the components have unbound
     }
 
     public String getTime() {
-        // check if the service is restarted after stopping or if the stop was reset
+        // check if the service is restarted after stopping or if it was reset
         if (flag) {
             start = SystemClock.uptimeMillis();
             flag = false;
