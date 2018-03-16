@@ -15,6 +15,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="379dp"
+        android:contentDescription="@string/iit_logo"
         app:srcCompat="@drawable/iit" />
 
     <TextView
@@ -24,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="155dp"
-        android:text="Example Of Services"
+        android:text="@string/example_of_services"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="24sp" />
 
@@ -36,7 +37,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView"
         android:layout_marginTop="24dp"
-        android:text="START SERVICES"
+        android:text="@string/start_services"
         android:textSize="18sp" />
 
     <Button
@@ -46,7 +47,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/startServiceBtn"
-        android:text="START" />
+        android:text="@string/start" />
 
     <Button
         android:id="@+id/stopBtn"
@@ -54,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/startServiceBtn"
         android:layout_centerHorizontal="true"
-        android:text="STOP" />
+        android:text="@string/stop" />
 
     <Button
         android:id="@+id/resetBtn"
@@ -64,7 +65,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignRight="@+id/startServiceBtn"
         android:layout_below="@+id/startServiceBtn"
-        android:text="RESET" android:layout_alignEnd="@+id/startServiceBtn" />
+        android:text="@string/reset" android:layout_alignEnd="@+id/startServiceBtn" />
 
     <Button
         android:id="@+id/stopServiceBtn"
@@ -73,7 +74,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/startBtn"
-        android:text="STOP SERVICES"
+        android:text="@string/stop_services"
         android:textSize="18sp" />
 
     <TextView
@@ -86,7 +87,7 @@
         android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="center"
-        android:text="00:00:000"
+        android:text="@string/defaultTime"
         android:textColor="@android:color/holo_green_dark"
         android:textSize="24sp" />
 

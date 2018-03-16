@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">StopWatch06</string>
+    <string name="example_of_services">Example Of Services</string>
+    <string name="start_services">START SERVICES</string>
+    <string name="start">START</string>
+    <string name="stop">STOP</string>
+    <string name="reset">RESET</string>
+    <string name="stop_services">STOP SERVICES</string>
+    <string name="defaultTime">00:00:000</string>
+    <string name="iit_logo">IIT logo</string>
 </resources>
