@@ -5,13 +5,16 @@ package com.example.poojagupta.sqlitedb;
  */
 
 public class Book {
-
+    int id;
     String title;
     String author;
+    int ratings;
 
-    Book(String title, String author) {
+    Book(int id, String title, String author, int ratings) {
+        this.id = id;
         this.title = title;
         this.author = author;
+        this.ratings = ratings;
     }
 
     public String getTitle() {
@@ -30,5 +33,9 @@ public class Book {
         this.author = author;
     }
 
+    @Override
+    public String toString() {
+        return " [id=" + id + ",title=" + title + ",author=" + author + "]";
+    }
 }
 

@@ -11,6 +11,8 @@ import android.provider.BaseColumns;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.*;
 
@@ -60,9 +62,9 @@ public class SqlHelper extends SQLiteOpenHelper {
         }
     }
     */
+
 /**
-     * add a book to Book table in BookDB
-     *
+ * add a book to Book table in BookDB
  *//*
 
     public void addBook(Book book) {
@@ -114,32 +116,26 @@ public class SqlHelper extends SQLiteOpenHelper {
 public class SqlHelper extends SQLiteOpenHelper {
     private Context mycontext;
     private static String DB_NAME = "BookDB.sqlite";
-    private static String DB_PATH ="/data/data/"+BuildConfig.APPLICATION_ID+"/databases/";
+    private static String DB_PATH = "/data/data/" + BuildConfig.APPLICATION_ID + "/databases/";
     public SQLiteDatabase myDataBase;
 
-    public SqlHelper(Context context) throws IOException {
-        super(context,DB_NAME,null,1);
-        this.mycontext=context;
-        boolean dbexist = checkdatabase();
-        if (dbexist) {
-            System.out.println("Database exists");
-            opendatabase();
-        } else {
-            System.out.println("Database doesn't exist");
-            createdatabase();
-        }
+    public SqlHelper(Context context) {
+        super(context, DB_NAME, null, 1);
+        this.mycontext = context;
+
     }
 
     public void createdatabase() throws IOException {
         boolean dbexist = checkdatabase();
-        if(dbexist) {
+        if (dbexist) {
             System.out.println(" Database exists.");
         } else {
+            myDataBase.execSQL(BookContract.SQL_CREATE_TABLE);
 
-            this.getReadableDatabase();
+            //this.getReadableDatabase();
             try {
                 copydatabase();
-            } catch(IOException e) {
+            } catch (IOException e) {
                 throw new Error("Error copying database");
             }
         }
@@ -153,7 +149,7 @@ public class SqlHelper extends SQLiteOpenHelper {
             File dbfile = new File(myPath);
             checkdb = dbfile.exists();
 
-        } catch(SQLiteException e) {
+        } catch (SQLiteException e) {
             System.out.println("Database doesn't exist");
         }
         return checkdb;
@@ -169,11 +165,11 @@ public class SqlHelper extends SQLiteOpenHelper {
         //Open the empty db as the output stream
         OutputStream myoutput = new FileOutputStream(outfilename);
 
-        // transfer byte to inputfile to outputfile
+        // transfer byte from inputfile to outputfile
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = myinput.read(buffer))>0) {
-            myoutput.write(buffer,0,length);
+        while ((length = myinput.read(buffer)) > 0) {
+            myoutput.write(buffer, 0, length);
         }
 
         //Close the streams
@@ -189,7 +185,7 @@ public class SqlHelper extends SQLiteOpenHelper {
     }
 
     public synchronized void close() {
-        if(myDataBase != null) {
+        if (myDataBase != null) {
             myDataBase.close();
 
         }
@@ -203,22 +199,59 @@ public class SqlHelper extends SQLiteOpenHelper {
                 BookContract.BookEntry.COLUMN_NAME_TITLE,
                 BookContract.BookEntry.COLUMN_NAME_AUTHOR
         };
-        Cursor cursor=  myDataBase.query(BookContract.BookEntry.TABLE_NAME,null,null,null,null,null,null);
+
+        SQLiteDatabase db = (new SqlHelper(mycontext)).getReadableDatabase();
+        Cursor cursor = db.query(BookContract.BookEntry.TABLE_NAME, null, null, null, null, null, null);
         while (cursor.moveToNext()) {
-           MainActivity.ids.add(cursor.getString(0));
+            MainActivity.ids.add(cursor.getString(0));
             MainActivity.books.add(cursor.getString(1));
             MainActivity.authors.add(cursor.getString(2));
             MainActivity.ratings.add(cursor.getString(3));
 
-        };
+        }
+        ;
     }
+
+    public void addBook(Book book) throws IOException {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(BookContract.BookEntry.COLUMN_NAME_TITLE, book.title);
+        values.put(BookContract.BookEntry.COLUMN_NAME_AUTHOR, book.author);
+        values.put(BookContract.BookEntry.COLUMN_NAME_RATING, book.ratings);
+        db.insert(BookContract.BookEntry.TABLE_NAME, null, values);
+        Log.i("addBook", "Book" + book);
+
+
+    }
+
+    public void getBook(String name) {
+        SQLiteDatabase db = (new SqlHelper(mycontext)).getReadableDatabase();
+        Cursor cursor = db.query(BookContract.BookEntry.TABLE_NAME, null, "title='" + name + "'", null, null, null, null);
+        cursor.moveToFirst();
+        Toast.makeText(mycontext, "Author's name: " + cursor.getString(2) + "\nRatings= " + cursor.getString(3), Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
+        boolean dbexist = checkdatabase();
+        if (dbexist) {
+            System.out.println("Database exists");
+            //opendatabase();
+        } else {
+            System.out.println("Database doesn't exist");
+            try {
+                createdatabase();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+        sqLiteDatabase.execSQL(BookContract.SQL_DELETE_TABLE);
+        onCreate(sqLiteDatabase);
     }
 }
