@@ -1,8 +1,11 @@
 package com.example.poojagupta.sqlitedb;
 
 /**
- * Created by miteshpatekar on 3/26/18.
+ * @author Pooja Gupta
+ * Date: 04/02/2018
+ * Lab: #7
  */
+
 
 public class Book {
     int id;
@@ -10,10 +13,29 @@ public class Book {
     String author;
     int ratings;
 
-    Book(int id, String title, String author, int ratings) {
-        this.id = id;
+    Book() {
+    }
+
+    Book(String title, String author, int ratings) {
         this.title = title;
         this.author = author;
+        this.ratings = ratings;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(int ratings) {
         this.ratings = ratings;
     }
 
@@ -35,7 +57,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return " [id=" + id + ",title=" + title + ",author=" + author + "]";
+        return " [id=" + getId() + ",title=" + getTitle() + ",author=" + getAuthor() + ", ratings=" + getRatings() + "]";
     }
 }
 
