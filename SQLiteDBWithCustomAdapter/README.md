@@ -1,6 +1,6 @@
 ## SQLiteDB with Custom Adapter
-**SlideShow of Images**
-_`This application shows how the data is fetched from SQLite database and rendered on a custom list adapter. The database file is created using SQLite firefox plugin`_
+
+_`This application shows how the books data (title,author and ratings) is fetched from SQLite database and rendered on a custom list adapter. The database file is created using SQLite firefox plugin`_
 
 ### Below are the snapshots of the working application
 
