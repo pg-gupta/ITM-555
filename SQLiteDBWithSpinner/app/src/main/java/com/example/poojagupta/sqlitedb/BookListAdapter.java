@@ -1,19 +1,24 @@
 package com.example.poojagupta.sqlitedb;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
+/**
+ * @author Pooja Gupta
+ * Date: 04/02/2018
+ * Lab: #8
+ * /
+ * /**
+ * Custom BookAdapter to display books details
+ */
 public class BookListAdapter extends ArrayAdapter {
 
     public static Activity context;
@@ -22,7 +27,7 @@ public class BookListAdapter extends ArrayAdapter {
     public static List<String> authors;
     public static List<String> ratings;
 
-    public BookListAdapter(@NonNull Activity context, List<String> ids, List<String> books, List<String> authors, List<String> ratings) {
+    public BookListAdapter(Activity context, List<String> ids, List<String> books, List<String> authors, List<String> ratings) {
         super(context, R.layout.book_list, books);
         this.context = context;
         this.ids = ids;
@@ -32,7 +37,7 @@ public class BookListAdapter extends ArrayAdapter {
 
     }
 
-    // method populating values in the view of cities_layout
+    // method populating values in the view of book_list
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.book_list, null, true);
@@ -48,8 +53,6 @@ public class BookListAdapter extends ArrayAdapter {
             id.setText(ids.get(position));
             book.setText(books.get(position));
             author.setText(authors.get(position));
-            float f=(float) Integer.parseInt(ratings.get(position));
-            Toast.makeText(getContext(),String.valueOf(f),Toast.LENGTH_SHORT).show();
             rating.setRating((float) Integer.parseInt(ratings.get(position)));
 
         } catch (Exception e) {
